@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e9">
+  <meta name="description" content="Draw a little creature. Give it one simple movement rule. Let it join the herd. A small, local-only browser toy.">
+  <title>Doodle Herd — a tiny living sketchbook</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <a class="wordmark" href="#" aria-label="Doodle Herd home"><svg viewBox="0 0 48 40" aria-hidden="true"><path d="M7 28C1 16 8 9 17 13C23 0 38 7 37 17C48 20 43 33 34 32C24 42 11 38 7 28Z"/><path d="M17 22v3m12-3v3"/></svg><span>doodle herd<span class="wordmark-dot">.</span></span></a>
+      <span class="edition">A TINY LIVING SKETCHBOOK <span aria-hidden="true">↗</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">A SMALL EXPERIMENT IN GETTING ALONG</p><h1 id="title">A little line. <em>A life of its own.</em></h1></div>
+      <p class="intro-note">Draw something odd.<br>Give it a rule. See what happens.</p>
+    </section>
+    <div class="workbench">
+      <section class="studio" aria-labelledby="draw-title">
+        <div class="section-heading"><span class="step">01</span><h2 id="draw-title">Make a little somebody</h2></div>
+        <div class="draw-area"><canvas id="drawpad" aria-label="Drawing pad. Draw with a mouse, pen, or finger." width="640" height="380"></canvas><div id="draw-hint" class="draw-hint" aria-hidden="true"><svg viewBox="0 0 96 76"><path d="M10 55Q-1 29 24 27Q18 6 43 14Q65-2 69 24Q94 18 87 43Q100 64 75 63Q56 82 45 65Q24 78 10 55Z"/><path d="M34 38l1 5m23-4-1 5m-17 7q9 8 16-1"/></svg><span>Your weird is welcome here</span></div></div>
+        <div class="drawing-tools">
+          <div class="palette" role="group" aria-label="Pen color"><button class="swatch selected" data-color="#32342d" style="--ink:#32342d" aria-label="Charcoal pen" aria-pressed="true"></button><button class="swatch" data-color="#ba4f42" style="--ink:#ba4f42" aria-label="Terracotta pen" aria-pressed="false"></button><button class="swatch" data-color="#446983" style="--ink:#446983" aria-label="Blue pen" aria-pressed="false"></button><button class="swatch" data-color="#897023" style="--ink:#897023" aria-label="Ochre pen" aria-pressed="false"></button></div>
+          <div class="edit-tools"><button id="undo" class="text-button" disabled aria-label="Undo last stroke">↶ Undo</button><button id="clear" class="text-button" disabled>Clear</button></div>
+        </div>
+        <fieldset class="rule-picker"><legend><span class="step">02</span>Give it one rule</legend><div class="rule-options"><label><input type="radio" name="rule" value="friends" checked><span><b aria-hidden="true">↗↙</b>Make friends</span></label><label><input type="radio" name="rule" value="space"><span><b aria-hidden="true">↖↘</b>Need space</span></label><label><input type="radio" name="rule" value="wander"><span><b aria-hidden="true">〰</b>Wander</span></label></div><p id="rule-help">Moves toward its nearest neighbor.</p></fieldset>
+        <button id="release" class="release-button" disabled>Let it loose <span aria-hidden="true">↗</span></button>
+        <p id="studio-message" class="studio-message" role="status" aria-live="polite">A dot, a blob, a very questionable cat. Anything goes.</p>
+      </section>
+      <section class="playground" aria-labelledby="herd-title">
+        <div class="playground-toolbar"><div class="herd-label"><span class="live-dot" id="live-dot"></span><h2 id="herd-title">The herd</h2><span id="count" class="count">3 / 20</span></div><div class="world-tools"><button id="pause" class="compact-button" aria-label="Pause animation">Ⅱ <span>Pause</span></button><button id="add-examples" class="compact-button" aria-label="Add three example creatures">+ <span>Examples</span></button><button id="reset" class="compact-button" aria-label="Reset herd to three examples">↺ <span>Reset</span></button></div></div>
+        <div class="field" id="field"><canvas id="world" aria-label="Animated playground. Tap a creature to inspect its rule, or choose one below."></canvas><div class="field-caption" aria-hidden="true">a little room to be yourself</div><span class="corner-note" id="field-note">TAP A DOODLE TO SAY HELLO</span></div>
+        <div class="inspector" id="inspector"><div class="inspector-icon" aria-hidden="true">✳</div><div class="inspector-copy"><p id="inspect-name">Everyone has their own little way.</p><p id="inspect-status">Tap a doodle to see its rule and who it’s watching.</p></div><label class="sr-only" for="creature-select">Inspect a creature</label><select id="creature-select" aria-label="Inspect a creature"><option value="">Meet the herd ↓</option></select></div>
+      </section>
+    </div>
+    <footer><span><strong>Three simple movement rules.</strong> Endless little encounters.</span><span class="fine-print">Just this browser tab. Refresh starts a new herd.</span></footer>
+    <p class="explanation">Neighbors gently make room for each other and avoid the edges. Doodles follow their rules; they don’t think or learn.</p>
+  </main>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

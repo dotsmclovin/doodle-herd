@@ -1,0 +1,11 @@
+{
+  "name": "doodle-herd",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A dependency-free living sketchbook with three simple movement rules",
+  "scripts": {
+    "test": "node --test *.test.js",
+    "check": "node --check engine.js && node --check app.js"
+  },
+  "license": "MIT"
+}

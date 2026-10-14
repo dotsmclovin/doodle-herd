@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e9">
+  <meta name="description" content="Draw a little creature. Give it one simple movement rule. Let it join the herd. A small, local-only browser toy.">
+  <title>Doodle Herd — a tiny living sketchbook</title>
+  <style>
+:root{color-scheme:light;--paper:#f7f3e9;--ink:#30372c;--muted:#777c6c;--line:#dddccc;--green:#3c573d;--field:#eaf0d9;--orange:#eaca9a}*{box-sizing:border-box}html{background:var(--paper)}body{margin:0;color:var(--ink);font-family:Arial,Helvetica,sans-serif;font-size:14px}button,input,select{font:inherit}button,a,select,label{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.4}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible+span{outline:3px solid #a26026;outline-offset:4px}button{color:inherit}.page{max-width:1400px;margin:auto;padding:26px 48px 18px}.masthead{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:20px}.wordmark{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:800;font-size:26px;letter-spacing:-1.4px;text-decoration:none}.wordmark svg{width:39px;height:37px;stroke:var(--ink);fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}.wordmark-dot{color:#b96a41}.edition,.eyebrow,.corner-note{font-size:10px;letter-spacing:1.7px;font-weight:700}.edition{display:flex;align-items:center;gap:24px;color:#636d5e}.edition span{font-size:22px;line-height:1}.intro{display:flex;justify-content:space-between;align-items:center;padding:28px 0 26px;gap:20px}.eyebrow{font-size:9px;margin:0 0 10px;color:#777c6c}h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(32px,3.2vw,48px);font-weight:400;letter-spacing:-1.9px;margin:0;line-height:1.12}h1 em{font-weight:400;color:#677958}.intro-note{margin:8px 0 0;line-height:1.65;font-size:12px;max-width:210px;color:#757b6e}.workbench{display:grid;grid-template-columns:355px minmax(0,1fr);border:1px solid #d5d8c6;border-radius:15px;overflow:hidden;background:#fbfaf5;box-shadow:0 4px 0 #e9e7da}.studio{padding:23px 24px 17px;background:#fffdf7;border-right:1px solid #d5d8c6}.section-heading{display:flex;align-items:center;gap:10px;margin-bottom:17px}h2{font-size:14px;font-weight:600;margin:0;letter-spacing:-.15px}.step{font:10px/21px Arial,sans-serif;width:22px;height:22px;border:1px solid #d9ddcf;border-radius:50%;display:inline-block;text-align:center;font-weight:600;color:#718063;margin-right:0}.draw-area{height:186px;position:relative;border:1px dashed #c9cbbd;background:#faf8f1;background-image:radial-gradient(#dcded2 .8px,transparent .8px);background-size:13px 13px;border-radius:6px;overflow:hidden}#drawpad{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair;position:relative;z-index:1}.draw-hint{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;pointer-events:none}.draw-hint svg{width:92px;height:73px;fill:none;stroke:#bcc4af;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transform:rotate(-6deg)}.draw-hint span{font:italic 12px Georgia,serif;color:#8b947e}.drawing-tools{display:flex;align-items:center;justify-content:space-between;margin:10px -4px 18px}.palette{display:flex;gap:0}.swatch{width:34px;height:34px;border:0;background:transparent;position:relative;border-radius:50%}.swatch:before{content:'';width:17px;height:17px;background:var(--ink);position:absolute;left:8px;top:8px;border-radius:50%}.swatch.selected:after{content:'';inset:3px;position:absolute;border:1px solid var(--ink);border-radius:50%}.edit-tools{display:flex;gap:5px}.text-button{border:0;background:none;padding:10px 6px;font-size:11px;color:#6c7564;border-radius:4px}.text-button:hover:not(:disabled){background:#eeeee3}.rule-picker{border:0;padding:0;margin:0}.rule-picker legend{display:flex;align-items:center;gap:10px;padding:0;margin-bottom:13px;font-size:13px;font-weight:600}.rule-options{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.rule-options label{cursor:pointer;position:relative}.rule-options input{position:absolute;opacity:0;inset:0}.rule-options span{display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid #dde0d2;border-radius:6px;padding:9px 2px 10px;font-size:10px;line-height:1.1;color:#66725e;background:#fffefa;transition:background .15s,border-color .15s}.rule-options b{font-size:20px;font-weight:400;line-height:22px;color:#677958}.rule-options input:checked+span{border-color:#849872;background:#edf1e1;box-shadow:inset 0 0 0 1px #849872}.rule-options label:hover span{background:#f0f3e8}#rule-help{font-size:11px;color:#707b65;min-height:28px;margin:11px 0 10px;line-height:1.5}.release-button{background:#3e553a;color:#fffdf5;display:flex;align-items:center;justify-content:space-between;border:1px solid #3e553a;width:100%;border-radius:6px;padding:12px 16px;font-size:13px;font-weight:600;transition:background .15s,transform .15s}.release-button span{font-size:22px;line-height:16px;font-weight:400}.release-button:hover:not(:disabled){background:#2f472e;transform:translateY(-1px)}.release-button:disabled{opacity:1;background:#e5e9dc;border-color:#d9e0cb;color:#8f9b82}.studio-message{font-size:9px;color:#88907d;text-align:center;margin:10px -8px 0;line-height:1.5;min-height:27px}.playground{display:flex;flex-direction:column;min-width:0;background:var(--field)}.playground-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:17px 22px;background:#f0f3e6;border-bottom:1px solid #d6deca;z-index:2}.herd-label{display:flex;align-items:center;gap:8px;white-space:nowrap}.herd-label h2{font-size:13px}.live-dot{width:6px;height:6px;border-radius:50%;background:#799264}.live-dot.paused{background:#ba956a}.count{font-size:10px;color:#879277;margin-left:5px}.world-tools{display:flex;gap:5px}.compact-button{background:transparent;border:1px solid transparent;border-radius:5px;padding:7px 6px;font-size:12px;color:#71815f;white-space:nowrap}.compact-button span{font-size:10px}.compact-button:hover:not(:disabled){border-color:#c5d1b6;background:#e6edd9}.field{position:relative;flex:1;min-height:354px;overflow:hidden;background-color:var(--field);background-image:radial-gradient(#cad5b9 .7px,transparent .7px);background-size:20px 20px}.field:before{content:'';position:absolute;inset:21px;border:1px solid #d4dfc2;border-radius:48% 46% 44% 50%;transform:rotate(-4deg);pointer-events:none;opacity:.55}.field-caption{position:absolute;bottom:45px;left:0;right:0;text-align:center;color:#adba9a;font:italic 18px Georgia,serif;pointer-events:none;opacity:.8}.corner-note{position:absolute;bottom:16px;left:22px;color:#81946a;font-size:8px;letter-spacing:1.15px;pointer-events:none}#world{display:block;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;touch-action:manipulation}.inspector{background:#f5f6ec;border-top:1px solid #d6deca;padding:16px 20px;display:flex;align-items:center;gap:12px;min-height:80px;z-index:2}.inspector-icon{font:25px Georgia,serif;color:#819765;flex-shrink:0;width:26px;text-align:center}.inspector-copy{min-width:0;flex:1}.inspector-copy p{margin:0;font-size:11px;line-height:1.5}#inspect-name{font-weight:600;color:#526144}#inspect-status{font-size:10px;color:#869175;margin-top:3px}.inspector select{max-width:135px;font-size:10px;color:#6e7d60;background:#edf1e2;border:1px solid #d9dfcd;border-radius:5px;padding:9px 7px;flex-shrink:0}footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:19px;font-size:10px;line-height:1.6;color:#7f8575}footer strong{font-weight:600;color:#58664c}.fine-print{font-size:10px}.explanation{font-size:9px;color:#8c927f;margin:9px 0 0;line-height:1.6}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(min-width:1450px){.page{padding-top:42px}.intro{padding:37px 0}.draw-area{height:222px}.field{min-height:395px}}@media(max-width:1040px){.page{padding:24px}.workbench{grid-template-columns:320px minmax(0,1fr)}.studio{padding:22px 18px 15px}.intro-note{display:none}h1{font-size:39px}.playground-toolbar{padding:14px}.world-tools{gap:0}.compact-button{padding:7px 5px}.compact-button span{font-size:9px}.count{margin-left:0}.inspector{padding:14px;gap:8px}.inspector select{max-width:104px}}@media(max-width:760px){.page{padding:18px 16px}.masthead{padding-bottom:14px}.wordmark{font-size:23px}.wordmark svg{width:34px}.edition{font-size:8px;letter-spacing:1px}.edition span{display:none}.intro{padding:23px 0 20px}.eyebrow{font-size:8px;letter-spacing:1.3px}h1{font-size:35px;letter-spacing:-1.3px;max-width:540px}.workbench{grid-template-columns:1fr}.studio{border-right:0;border-bottom:1px solid #d5d8c6;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 18px;padding:18px}.section-heading{grid-column:1/-1;margin-bottom:13px}.draw-area{grid-column:1;height:178px;grid-row:2/5}.drawing-tools{grid-column:1;grid-row:5;margin:8px 0 0}.rule-picker{grid-column:2;grid-row:2/4;min-width:0}.rule-picker legend{font-size:12px;margin-bottom:9px}.rule-options{gap:4px}.rule-options span{font-size:9px;padding:8px 1px}.rule-options b{font-size:18px}.rule-picker #rule-help{font-size:10px;margin:8px 0}.release-button{grid-column:2;grid-row:4;padding:10px 12px;font-size:12px}.studio-message{grid-column:2;grid-row:5;margin:9px 0 0;font-size:8px}.playground-toolbar{padding:12px 16px}.field{height:360px;min-height:360px;flex:none}.inspector{min-height:82px;padding:13px 15px}.inspector select{max-width:130px}footer{align-items:flex-start;flex-direction:column;gap:5px;padding-top:15px}.explanation{margin-top:6px}.fine-print{font-size:9px}}@media(max-width:510px){.edition{font-size:7px;max-width:94px;line-height:1.6;text-align:right}h1{font-size:32px;max-width:330px}h1 em{display:block}.studio{display:block;padding:18px}.draw-area{height:174px}.drawing-tools{margin:7px -4px 13px}.section-heading{margin-bottom:12px}.rule-picker legend{margin-bottom:10px}.rule-options span{font-size:10px;padding:8px 2px;flex-direction:row;gap:5px;justify-content:center}.rule-options b{font-size:18px}.rule-picker #rule-help{font-size:10px;min-height:15px;margin:9px 0 12px}.release-button{padding:12px 14px}.studio-message{font-size:9px;min-height:14px;margin:9px 0 0}.field{height:330px;min-height:330px}.playground-toolbar{padding:11px 12px}.herd-label{gap:6px}.world-tools{gap:1px}.compact-button{padding:7px 5px}.compact-button span{font-size:9px}.inspector{flex-wrap:wrap;gap:7px}.inspector-icon{width:23px}.inspector-copy{flex-basis:calc(100% - 33px)}.inspector select{margin-left:30px;max-width:none;padding:8px;width:calc(100% - 30px)}.corner-note{left:15px}.field-caption{font-size:17px}footer{font-size:9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
+
+</style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <a class="wordmark" href="#" aria-label="Doodle Herd home"><svg viewBox="0 0 48 40" aria-hidden="true"><path d="M7 28C1 16 8 9 17 13C23 0 38 7 37 17C48 20 43 33 34 32C24 42 11 38 7 28Z"/><path d="M17 22v3m12-3v3"/></svg><span>doodle herd<span class="wordmark-dot">.</span></span></a>
+      <span class="edition">A TINY LIVING SKETCHBOOK <span aria-hidden="true">↗</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">A SMALL EXPERIMENT IN GETTING ALONG</p><h1 id="title">A little line. <em>A life of its own.</em></h1></div>
+      <p class="intro-note">Draw something odd.<br>Give it a rule. See what happens.</p>
+    </section>
+    <div class="workbench">
+      <section class="studio" aria-labelledby="draw-title">
+        <div class="section-heading"><span class="step">01</span><h2 id="draw-title">Make a little somebody</h2></div>
+        <div class="draw-area"><canvas id="drawpad" aria-label="Drawing pad. Draw with a mouse, pen, or finger." width="640" height="380"></canvas><div id="draw-hint" class="draw-hint" aria-hidden="true"><svg viewBox="0 0 96 76"><path d="M10 55Q-1 29 24 27Q18 6 43 14Q65-2 69 24Q94 18 87 43Q100 64 75 63Q56 82 45 65Q24 78 10 55Z"/><path d="M34 38l1 5m23-4-1 5m-17 7q9 8 16-1"/></svg><span>Your weird is welcome here</span></div></div>
+        <div class="drawing-tools">
+          <div class="palette" role="group" aria-label="Pen color"><button class="swatch selected" data-color="#32342d" style="--ink:#32342d" aria-label="Charcoal pen" aria-pressed="true"></button><button class="swatch" data-color="#ba4f42" style="--ink:#ba4f42" aria-label="Terracotta pen" aria-pressed="false"></button><button class="swatch" data-color="#446983" style="--ink:#446983" aria-label="Blue pen" aria-pressed="false"></button><button class="swatch" data-color="#897023" style="--ink:#897023" aria-label="Ochre pen" aria-pressed="false"></button></div>
+          <div class="edit-tools"><button id="undo" class="text-button" disabled aria-label="Undo last stroke">↶ Undo</button><button id="clear" class="text-button" disabled>Clear</button></div>
+        </div>
+        <fieldset class="rule-picker"><legend><span class="step">02</span>Give it one rule</legend><div class="rule-options"><label><input type="radio" name="rule" value="friends" checked><span><b aria-hidden="true">↗↙</b>Make friends</span></label><label><input type="radio" name="rule" value="space"><span><b aria-hidden="true">↖↘</b>Need space</span></label><label><input type="radio" name="rule" value="wander"><span><b aria-hidden="true">〰</b>Wander</span></label></div><p id="rule-help">Moves toward its nearest neighbor.</p></fieldset>
+        <button id="release" class="release-button" disabled>Let it loose <span aria-hidden="true">↗</span></button>
+        <p id="studio-message" class="studio-message" role="status" aria-live="polite">A dot, a blob, a very questionable cat. Anything goes.</p>
+      </section>
+      <section class="playground" aria-labelledby="herd-title">
+        <div class="playground-toolbar"><div class="herd-label"><span class="live-dot" id="live-dot"></span><h2 id="herd-title">The herd</h2><span id="count" class="count">3 / 20</span></div><div class="world-tools"><button id="pause" class="compact-button" aria-label="Pause animation">Ⅱ <span>Pause</span></button><button id="add-examples" class="compact-button" aria-label="Add three example creatures">+ <span>Examples</span></button><button id="reset" class="compact-button" aria-label="Reset herd to three examples">↺ <span>Reset</span></button></div></div>
+        <div class="field" id="field"><canvas id="world" aria-label="Animated playground. Tap a creature to inspect its rule, or choose one below."></canvas><div class="field-caption" aria-hidden="true">a little room to be yourself</div><span class="corner-note" id="field-note">TAP A DOODLE TO SAY HELLO</span></div>
+        <div class="inspector" id="inspector"><div class="inspector-icon" aria-hidden="true">✳</div><div class="inspector-copy"><p id="inspect-name">Everyone has their own little way.</p><p id="inspect-status">Tap a doodle to see its rule and who it’s watching.</p></div><label class="sr-only" for="creature-select">Inspect a creature</label><select id="creature-select" aria-label="Inspect a creature"><option value="">Meet the herd ↓</option></select></div>
+      </section>
+    </div>
+    <footer><span><strong>Three simple movement rules.</strong> Endless little encounters.</span><span class="fine-print">Just this browser tab. Refresh starts a new herd.</span></footer>
+    <p class="explanation">Neighbors gently make room for each other and avoid the edges. Doodles follow their rules; they don’t think or learn.</p>
+  </main>
+  <script>
+/* Doodle Herd: deterministic, dependency-free movement simulation. */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.DoodleEngine = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const LIMIT = 20;
+  const RULES = Object.freeze({ friends: 'Make friends', space: 'Need space', wander: 'Wander' });
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+  function random(world) {
+    world.rng = (Math.imul(1664525, world.rng) + 1013904223) >>> 0;
+    return world.rng / 4294967296;
+  }
+  function createWorld(width = 700, height = 440, seed = 7319) {
+    return { width: Math.max(1, width), height: Math.max(1, height), initialSeed: seed >>> 0,
+      rng: seed >>> 0, creatures: [], nextId: 1, time: 0, paused: false };
+  }
+  function constrain(c, world) {
+    const mx = Math.min(c.radius + 7, world.width / 2), my = Math.min(c.radius + 7, world.height / 2);
+    c.x = clamp(c.x, mx, world.width - mx); c.y = clamp(c.y, my, world.height - my);
+  }
+  function addCreature(world, options = {}) {
+    if (world.creatures.length >= LIMIT) return null;
+    const id = world.nextId++;
+    const c = { id, name: options.name || `Doodle ${id}`, rule: RULES[options.rule] ? options.rule : 'wander',
+      drawing: options.drawing || [], radius: clamp(options.radius || 27, 8, 48),
+      x: options.x ?? (0.18 + random(world) * 0.64) * world.width,
+      y: options.y ?? (0.18 + random(world) * 0.64) * world.height,
+      vx: 0, vy: 0, heading: random(world) * Math.PI * 2, nextTurn: world.time + 1 + random(world),
+      phase: random(world) * Math.PI * 2, targetId: null, status: 'Ready', intentX: 0, intentY: 0 };
+    constrain(c, world); world.creatures.push(c); refreshIntents(world); return c;
+  }
+  function nearest(c, creatures) {
+    let target = null, distance = Infinity;
+    for (const other of creatures) {
+      if (other.id === c.id) continue;
+      const d = Math.hypot(other.x - c.x, other.y - c.y);
+      if (d < distance) { distance = d; target = other; }
+    }
+    return { target, distance };
+  }
+  function intentFor(c, creatures) {
+    const { target, distance } = nearest(c, creatures);
+    if (c.rule === 'wander') return { x: Math.cos(c.heading), y: Math.sin(c.heading), targetId: null, status: 'Following a wandering direction' };
+    if (!target) return { x: 0, y: 0, targetId: null, status: c.rule === 'friends' ? 'Waiting for another doodle' : 'No one nearby; staying put' };
+    const dx = target.x - c.x, dy = target.y - c.y;
+    const ux = distance > 0.0001 ? dx / distance : (c.id < target.id ? -1 : 1);
+    const uy = distance > 0.0001 ? dy / distance : 0;
+    if (c.rule === 'friends') {
+      const close = distance <= c.radius + target.radius + 12;
+      return { x: close ? 0 : ux, y: close ? 0 : uy, targetId: target.id,
+        status: close ? `Close to ${target.name}; staying put` : `Moving toward ${target.name}` };
+    }
+    if (distance < 145) return { x: -ux, y: -uy, targetId: target.id, status: `Moving away from ${target.name}` };
+    return { x: 0, y: 0, targetId: null, status: 'No one within 145 px; staying put' };
+  }
+  function refreshIntents(world) {
+    for (const c of world.creatures) {
+      const intent = intentFor(c, world.creatures);
+      c.intentX = intent.x; c.intentY = intent.y; c.targetId = intent.targetId; c.status = intent.status;
+    }
+  }
+  function step(world, dt) {
+    if (world.paused || !Number.isFinite(dt) || dt <= 0) return;
+    dt = Math.min(dt, 0.05); world.time += dt;
+    for (const c of world.creatures) {
+      if (c.rule === 'wander' && world.time >= c.nextTurn) {
+        c.heading += (random(world) - 0.5) * 1.7;
+        c.nextTurn = world.time + 1.2 + random(world) * 1.6;
+      }
+    }
+    refreshIntents(world);
+    const deltas = world.creatures.map(c => {
+      let ax = c.intentX * 35, ay = c.intentY * 35;
+      const edge = c.radius + 38;
+      let edging = false, separating = false;
+      if (c.x < edge) { ax += (edge - c.x) * 1.5; edging = true; }
+      if (c.x > world.width - edge) { ax -= (c.x - world.width + edge) * 1.5; edging = true; }
+      if (c.y < edge) { ay += (edge - c.y) * 1.5; edging = true; }
+      if (c.y > world.height - edge) { ay -= (c.y - world.height + edge) * 1.5; edging = true; }
+      for (const other of world.creatures) {
+        if (c.id === other.id) continue;
+        const dx = c.x - other.x, dy = c.y - other.y, distance = Math.hypot(dx, dy);
+        const gap = c.radius + other.radius + 5;
+        if (distance < gap) {
+          const ux = distance > 0.001 ? dx / distance : (c.id < other.id ? -1 : 1);
+          const uy = distance > 0.001 ? dy / distance : 0;
+          ax += ux * (gap - distance) * 3.5; ay += uy * (gap - distance) * 3.5; separating = true;
+        }
+      }
+      const speed = Math.hypot(ax, ay);
+      if (speed > 65) { ax *= 65 / speed; ay *= 65 / speed; }
+      return { ax, ay, edging, separating };
+    });
+    for (let i = 0; i < world.creatures.length; i++) {
+      const c = world.creatures[i], d = deltas[i], smoothing = 1 - Math.exp(-dt * 7);
+      c.vx += (d.ax - c.vx) * smoothing; c.vy += (d.ay - c.vy) * smoothing;
+      c.x += c.vx * dt; c.y += c.vy * dt; constrain(c, world);
+    }
+    refreshIntents(world);
+    for (let i = 0; i < world.creatures.length; i++) {
+      const d = deltas[i];
+      if (d.separating) world.creatures[i].status += ' · making room';
+      if (d.edging) world.creatures[i].status += ' · avoiding the edge';
+    }
+  }
+  function resizeWorld(world, width, height) {
+    const w = Math.max(1, width), h = Math.max(1, height);
+    for (const c of world.creatures) { c.x *= w / world.width; c.y *= h / world.height; }
+    world.width = w; world.height = h;
+    world.creatures.forEach(c => constrain(c, world)); refreshIntents(world);
+  }
+  function resetWorld(world) {
+    world.creatures = []; world.nextId = 1; world.rng = world.initialSeed; world.time = 0; world.paused = false;
+  }
+  return { LIMIT, RULES, createWorld, addCreature, step, resizeWorld, resetWorld, intentFor, refreshIntents };
+});
+
+</script>
+  <script>
+(function () {
+  'use strict';
+  const E = window.DoodleEngine;
+  const $ = id => document.getElementById(id);
+  const drawpad = $('drawpad'), drawCtx = drawpad.getContext('2d');
+  const canvas = $('world'), ctx = canvas.getContext('2d');
+  const field = $('field');
+  const world = E.createWorld(700, 400, 7319);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let strokes = [], activeStroke = null, activePointer = null, ink = '#32342d';
+  let selected = null, lastFrame = null, accumulator = 0, inspectorTick = 0;
+  let padScale = 1, padX = 0, padY = 0, stageWidth = 0, stageHeight = 0;
+  const sprites = new Map();
+  const ruleHelp = { friends: 'Moves toward its nearest neighbor.', space: 'Moves away when a neighbor is within 145 px.', wander: 'Follows a gently changing, seeded direction.' };
+  function fitCanvas(el, context, width, height) {
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    el.width = Math.round(width * dpr); el.height = Math.round(height * dpr);
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function paintStroke(context, stroke) {
+    context.strokeStyle = stroke.color; context.fillStyle = stroke.color;
+    context.lineWidth = stroke.width; context.lineCap = 'round'; context.lineJoin = 'round';
+    if (stroke.points.length === 1) {
+      context.beginPath(); context.arc(stroke.points[0].x, stroke.points[0].y, stroke.width / 2, 0, Math.PI * 2); context.fill(); return;
+    }
+    context.beginPath(); stroke.points.forEach((p, i) => i ? context.lineTo(p.x, p.y) : context.moveTo(p.x, p.y)); context.stroke();
+  }
+  function redrawPad() {
+    const rect = drawpad.getBoundingClientRect();
+    drawCtx.clearRect(0, 0, rect.width, rect.height);
+    drawCtx.save(); drawCtx.translate(padX, padY); drawCtx.scale(padScale, padScale);
+    strokes.forEach(s => paintStroke(drawCtx, s)); drawCtx.restore();
+    $('draw-hint').hidden = strokes.length > 0;
+    $('draw-hint').style.display = strokes.length ? 'none' : 'flex';
+    $('undo').disabled = $('clear').disabled = !strokes.length;
+    $('release').disabled = !strokes.length || world.creatures.length >= E.LIMIT;
+  }
+  function resize() {
+    const padRect = drawpad.getBoundingClientRect();
+    fitCanvas(drawpad, drawCtx, padRect.width, padRect.height);
+    padScale = Math.min(padRect.width / 320, padRect.height / 200);
+    padX = (padRect.width - 320 * padScale) / 2; padY = (padRect.height - 200 * padScale) / 2;
+    redrawPad();
+    const rect = field.getBoundingClientRect();
+    if (rect.width !== stageWidth || rect.height !== stageHeight) {
+      stageWidth = rect.width; stageHeight = rect.height;
+      E.resizeWorld(world, stageWidth, stageHeight); fitCanvas(canvas, ctx, stageWidth, stageHeight);
+    }
+    render();
+  }
+  function pointFrom(event) {
+    const rect = drawpad.getBoundingClientRect();
+    return { x: Math.max(0, Math.min(320, (event.clientX - rect.left - padX) / padScale)),
+      y: Math.max(0, Math.min(200, (event.clientY - rect.top - padY) / padScale)) };
+  }
+  drawpad.addEventListener('pointerdown', event => {
+    if (activePointer !== null || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    if (strokes.length >= 200) { announce('That’s a full sketch! Let it loose, or undo a stroke.'); return; }
+    event.preventDefault(); activePointer = event.pointerId;
+    drawpad.setPointerCapture(event.pointerId);
+    activeStroke = { color: ink, width: 3.5, points: [pointFrom(event)] }; strokes.push(activeStroke); redrawPad();
+  });
+  drawpad.addEventListener('pointermove', event => {
+    if (event.pointerId !== activePointer || !activeStroke) return;
+    const p = pointFrom(event), last = activeStroke.points[activeStroke.points.length - 1];
+    if (activeStroke.points.length < 2500 && Math.hypot(p.x - last.x, p.y - last.y) > 1.2) { activeStroke.points.push(p); redrawPad(); }
+  });
+  function endStroke(event) {
+    if (event.pointerId !== activePointer) return;
+    if (drawpad.hasPointerCapture(event.pointerId)) drawpad.releasePointerCapture(event.pointerId);
+    activePointer = null; activeStroke = null;
+  }
+  drawpad.addEventListener('pointerup', endStroke);
+  drawpad.addEventListener('pointercancel', endStroke);
+  drawpad.addEventListener('lostpointercapture', endStroke);
+  document.querySelectorAll('.swatch').forEach(button => button.addEventListener('click', () => {
+    ink = button.dataset.color;
+    document.querySelectorAll('.swatch').forEach(b => { b.classList.toggle('selected', b === button); b.setAttribute('aria-pressed', String(b === button)); });
+  }));
+  $('undo').addEventListener('click', () => { strokes.pop(); activeStroke = null; activePointer = null; redrawPad(); });
+  $('clear').addEventListener('click', () => { strokes = []; activeStroke = null; activePointer = null; redrawPad(); announce('A fresh page. Who’s next?'); });
+  document.querySelectorAll('input[name="rule"]').forEach(input => input.addEventListener('change', () => $('rule-help').textContent = ruleHelp[input.value]));
+  function announce(message) { $('studio-message').textContent = message; }
+  function makeSprite(drawing, radius) {
+    let left = Infinity, right = -Infinity, top = Infinity, bottom = -Infinity;
+    drawing.forEach(s => s.points.forEach(p => {
+      left = Math.min(left, p.x - s.width / 2); right = Math.max(right, p.x + s.width / 2);
+      top = Math.min(top, p.y - s.width / 2); bottom = Math.max(bottom, p.y + s.width / 2);
+    }));
+    const sprite = document.createElement('canvas'), size = radius * 2 + 8, dpr = 3;
+    sprite.width = sprite.height = size * dpr;
+    const sc = sprite.getContext('2d'), scale = (size - 10) / Math.max(right - left, bottom - top, 1);
+    sc.scale(dpr, dpr); sc.translate(size / 2, size / 2); sc.scale(scale, scale); sc.translate(-(left + right) / 2, -(top + bottom) / 2);
+    drawing.forEach(s => paintStroke(sc, s));
+    return { canvas: sprite, size };
+  }
+  function spawn(drawing, rule, name, x, y) {
+    const creature = E.addCreature(world, { drawing, rule, name, x, y, radius: 26 });
+    if (creature) sprites.set(creature.id, makeSprite(drawing, creature.radius));
+    return creature;
+  }
+  function line(points, color, width = 3.5) { return { points: points.map(p => ({x:p[0], y:p[1]})), color, width }; }
+  function loop(cx, cy, rx, ry, color, n = 46, wobble = 0) {
+    return line(Array.from({length:n + 1}, (_, i) => {
+      const a = i / n * Math.PI * 2, w = 1 + Math.sin(a * 5) * wobble;
+      return [cx + Math.cos(a) * rx * w, cy + Math.sin(a) * ry * w];
+    }), color);
+  }
+  const exampleDrawings = [
+    [loop(50, 48, 30, 26, '#ba4f42', 64, .16), line([[40,40],[40,45]], '#ba4f42'), line([[59,39],[59,44]], '#ba4f42'), line([[43,56],[48,59],[54,56]], '#ba4f42')],
+    [line([[22,68],[34,24],[42,33],[58,14],[78,65],[60,74],[43,68],[22,68]], '#897023'), line([[43,48],[43,52]], '#897023'), line([[59,46],[59,50]], '#897023')],
+    [loop(50, 45, 23, 25, '#446983', 64, .27), line([[42,40],[42,44]], '#446983'), line([[55,40],[55,44]], '#446983'), line([[45,70],[39,80]], '#446983'), line([[54,69],[62,78]], '#446983')]
+  ];
+  function addExamples(initial = false) {
+    const names = ['Pip', 'Pebble', 'Sprig'], rules = ['friends', 'space', 'wander'];
+    let added = 0;
+    for (let i = 0; i < 3; i++) {
+      const n = world.nextId, name = n <= 3 ? names[i] : `${names[i]} ${n}`;
+      const x = initial ? world.width * [.29,.6,.73][i] : undefined;
+      const y = initial ? world.height * [.36,.44,.68][i] : undefined;
+      if (spawn(exampleDrawings[i], rules[i], name, x, y)) added++;
+    }
+    syncControls();
+    if (!initial) announce(added ? `${added} little ${added === 1 ? 'neighbor joined' : 'neighbors joined'} the herd.` : 'This herd is full. Reset for a fresh start.');
+  }
+  $('release').addEventListener('click', () => {
+    if (!strokes.length || world.creatures.length >= E.LIMIT) return;
+    const drawing = strokes.map(s => ({ ...s, points: s.points.map(p => ({...p})) }));
+    const rule = document.querySelector('input[name="rule"]:checked').value;
+    const creature = spawn(drawing, rule);
+    if (!creature) return;
+    selected = creature.id; strokes = []; activePointer = null; activeStroke = null;
+    syncControls(); redrawPad(); render(); announce(`${creature.name} joined the herd. Draw them a neighbor?`);
+  });
+  function syncControls() {
+    $('count').textContent = `${world.creatures.length} / ${E.LIMIT}`;
+    $('add-examples').disabled = world.creatures.length >= E.LIMIT;
+    $('release').disabled = !strokes.length || world.creatures.length >= E.LIMIT;
+    const select = $('creature-select');
+    select.replaceChildren(new Option('Meet the herd ↓', ''));
+    world.creatures.forEach(c => select.add(new Option(`${c.name} · ${E.RULES[c.rule]}`, String(c.id))));
+    select.value = selected === null ? '' : String(selected);
+    syncPause(); updateInspector();
+  }
+  function syncPause() {
+    $('pause').innerHTML = world.paused ? '▷ <span>Play</span>' : 'Ⅱ <span>Pause</span>';
+    $('pause').setAttribute('aria-label', world.paused ? 'Play animation' : 'Pause animation');
+    $('pause').setAttribute('aria-pressed', String(world.paused));
+    $('live-dot').classList.toggle('paused', world.paused);
+    $('field-note').textContent = world.paused ? 'PAUSED · TAKE A CLOSER LOOK' : 'TAP A DOODLE TO SAY HELLO';
+  }
+  $('pause').addEventListener('click', () => { world.paused = !world.paused; accumulator = 0; syncPause(); updateInspector(); });
+  $('add-examples').addEventListener('click', () => { addExamples(); render(); });
+  $('reset').addEventListener('click', () => {
+    E.resetWorld(world); world.paused = reducedMotion.matches; sprites.clear(); selected = null; accumulator = 0;
+    addExamples(true); syncControls(); render(); announce('A fresh herd. Your drawing can still join in.');
+  });
+  $('creature-select').addEventListener('change', event => { selected = event.target.value ? Number(event.target.value) : null; updateInspector(); render(); });
+  canvas.addEventListener('pointerup', event => {
+    const rect = canvas.getBoundingClientRect(), x = event.clientX - rect.left, y = event.clientY - rect.top;
+    const candidates = world.creatures.filter(c => Math.hypot(c.x - x, c.y - y) < c.radius + 18);
+    candidates.sort((a,b) => Math.hypot(a.x-x,a.y-y) - Math.hypot(b.x-x,b.y-y));
+    selected = candidates.length ? candidates[0].id : null;
+    $('creature-select').value = selected === null ? '' : String(selected); updateInspector(); render();
+  });
+  function updateInspector() {
+    const c = world.creatures.find(c => c.id === selected);
+    if (c) {
+      $('inspect-name').textContent = `${c.name} · ${E.RULES[c.rule]}`;
+      $('inspect-status').textContent = `${world.paused ? 'Paused · ' : ''}${c.status}`;
+      document.querySelector('.inspector-icon').textContent = c.rule === 'friends' ? '↗' : c.rule === 'space' ? '↙' : '〰';
+    } else {
+      $('inspect-name').textContent = 'Everyone has their own little way.';
+      $('inspect-status').textContent = world.paused ? 'Paused. Tap a doodle or choose one to take a closer look.' : 'Tap a doodle to see its rule and who it’s watching.';
+      document.querySelector('.inspector-icon').textContent = '✳';
+    }
+  }
+  function render() {
+    ctx.clearRect(0, 0, stageWidth, stageHeight);
+    const chosen = world.creatures.find(c => c.id === selected);
+    if (chosen) {
+      const target = world.creatures.find(c => c.id === chosen.targetId);
+      ctx.save(); ctx.strokeStyle = '#8b9c71'; ctx.fillStyle = '#7a8d61'; ctx.lineWidth = 1.2; ctx.setLineDash([4,6]);
+      if (target) {
+        ctx.beginPath(); ctx.moveTo(chosen.x, chosen.y); ctx.lineTo(target.x,target.y); ctx.stroke();
+        ctx.beginPath(); ctx.arc(target.x,target.y,target.radius+8,0,Math.PI*2); ctx.stroke();
+      } else if (chosen.rule === 'wander') {
+        ctx.beginPath(); ctx.moveTo(chosen.x,chosen.y); ctx.lineTo(chosen.x+chosen.intentX*66,chosen.y+chosen.intentY*66); ctx.stroke();
+      }
+      ctx.setLineDash([]); ctx.beginPath(); ctx.arc(chosen.x,chosen.y,chosen.radius+10,0,Math.PI*2);ctx.stroke();
+      ctx.restore();
+    }
+    world.creatures.forEach(c => {
+      const sprite = sprites.get(c.id); if (!sprite) return;
+      const moving = Math.min(1, Math.hypot(c.vx,c.vy)/24);
+      const bob = reducedMotion.matches ? 0 : Math.sin(world.time*5+c.phase)*2*moving;
+      const tilt = reducedMotion.matches ? 0 : Math.sin(world.time*3.2+c.phase)*.045*moving;
+      ctx.save();ctx.translate(c.x,c.y);
+      ctx.fillStyle = 'rgba(102,124,73,.095)';ctx.beginPath();ctx.ellipse(0,c.radius+2,c.radius*.62,3.8,0,0,Math.PI*2);ctx.fill();
+      ctx.translate(0,bob);ctx.rotate(tilt);ctx.drawImage(sprite.canvas,-sprite.size/2,-sprite.size/2,sprite.size,sprite.size);ctx.restore();
+      if (c.id === selected) {
+        ctx.font = '10px Arial';ctx.textAlign='center';ctx.fillStyle='#62734f';ctx.fillText(c.name,c.x,Math.min(stageHeight-7,c.y+c.radius+23));
+      }
+    });
+  }
+  function frame(timestamp) {
+    if (lastFrame !== null && !world.paused && !document.hidden) {
+      accumulator += Math.min((timestamp - lastFrame) / 1000, 0.1);
+      while (accumulator >= 1/60) { E.step(world,1/60); accumulator -= 1/60; }
+    }
+    lastFrame = timestamp; render();
+    if (timestamp - inspectorTick > 160) { updateInspector(); inspectorTick = timestamp; }
+    requestAnimationFrame(frame);
+  }
+  document.addEventListener('visibilitychange', () => { lastFrame = null; accumulator = 0; });
+  reducedMotion.addEventListener('change', event => { if (event.matches) { world.paused = true; syncPause(); updateInspector(); } });
+  new ResizeObserver(resize).observe(document.querySelector('.workbench'));
+  window.addEventListener('resize', resize);
+  resize(); addExamples(true); world.paused = reducedMotion.matches; syncControls(); requestAnimationFrame(frame);
+})();
+
+</script>
+</body>
+</html>
